@@ -1,87 +1,116 @@
 /**
- * ============================================
+ * ===================================================================
  * DUAIRO WEBSITE - INTERACTIVE FUNCTIONALITY
- * Professional, Enterprise-Grade JavaScript
- * ============================================
+ * Enterprise-Grade JavaScript | Clean Architecture
+ * ===================================================================
  */
 
-// ============================================
-// INITIALIZATION
-// ============================================
+'use strict';
+
+/* ===================================================================
+   INITIALIZATION
+   =================================================================== */
+
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initScrollEffects();
     initForms();
-    initIntersectionObserver();
+    initAnimations();
     initMobileMenu();
+    initScrollToTop();
 });
 
-// ============================================
-// NAVIGATION
-// ============================================
+/* ===================================================================
+   NAVIGATION
+   =================================================================== */
+
+/**
+ * Initialize navigation functionality
+ * Handles smooth scrolling and active link highlighting
+ */
 function initNavigation() {
     const navbar = document.getElementById('navbar');
     const navLinks = document.querySelectorAll('.nav-link');
 
     // Smooth scroll for navigation links
     navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-
-            if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 80;
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-
-                // Close mobile menu if open
-                const navMenu = document.getElementById('navMenu');
-                if (navMenu.classList.contains('active')) {
-                    navMenu.classList.remove('active');
-                }
-            }
-        });
+        link.addEventListener('click', handleNavLinkClick);
     });
 
-    // Active link highlighting
+    // Active link highlighting on scroll
     window.addEventListener('scroll', () => {
-        let current = '';
-        const sections = document.querySelectorAll('section');
+        highlightActiveSection(navLinks);
+    }, { passive: true });
+}
 
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100;
-            const sectionHeight = section.clientHeight;
-            if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
-                current = section.getAttribute('id');
-            }
+/**
+ * Handle navigation link click
+ * @param {Event} e - Click event
+ */
+function handleNavLinkClick(e) {
+    e.preventDefault();
+    const targetId = this.getAttribute('href');
+    const targetSection = document.querySelector(targetId);
+
+    if (targetSection) {
+        const offsetTop = targetSection.offsetTop - 80;
+        window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
         });
 
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
+        // Close mobile menu if open
+        const navMenu = document.getElementById('navMenu');
+        if (navMenu && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+}
+
+/**
+ * Highlight active section in navigation
+ * @param {NodeList} navLinks - Navigation link elements
+ */
+function highlightActiveSection(navLinks) {
+    let current = '';
+    const sections = document.querySelectorAll('section[id]');
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.clientHeight;
+        if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+            current = section.getAttribute('id');
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+        }
     });
 }
 
-// ============================================
-// SCROLL EFFECTS
-// ============================================
+/* ===================================================================
+   SCROLL EFFECTS
+   =================================================================== */
+
+/**
+ * Initialize scroll-based effects
+ * Handles navbar appearance and smooth scrolling
+ */
 function initScrollEffects() {
     const navbar = document.getElementById('navbar');
 
     // Navbar background on scroll
-    window.addEventListener('scroll', () => {
+    window.addEventListener('scroll', throttle(() => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
-    });
+    }, 100), { passive: true });
 
     // Smooth scroll for all anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -104,13 +133,18 @@ function initScrollEffects() {
     });
 }
 
-// ============================================
-// INTERSECTION OBSERVER - Scroll Animations
-// ============================================
-function initIntersectionObserver() {
+/* ===================================================================
+   ANIMATIONS
+   =================================================================== */
+
+/**
+ * Initialize scroll-based animations using Intersection Observer
+ * Provides smooth fade-in effects for elements
+ */
+function initAnimations() {
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -122,26 +156,30 @@ function initIntersectionObserver() {
         });
     }, observerOptions);
 
-    // Observe elements for scroll animations
-    const animateOnScroll = document.querySelectorAll(
-        '.feature-card, .process-step, .benefit-item, .value-item, .stat-card'
-    );
-
+    // Observe elements with data-aos attribute
+    const animateOnScroll = document.querySelectorAll('[data-aos]');
     animateOnScroll.forEach(el => {
         observer.observe(el);
     });
 }
 
-// ============================================
-// MOBILE MENU
-// ============================================
+/* ===================================================================
+   MOBILE MENU
+   =================================================================== */
+
+/**
+ * Initialize mobile menu functionality
+ * Handles menu toggle and click-outside behavior
+ */
 function initMobileMenu() {
     const mobileToggle = document.getElementById('mobileToggle');
     const navMenu = document.getElementById('navMenu');
 
     if (!mobileToggle || !navMenu) return;
 
-    mobileToggle.addEventListener('click', () => {
+    // Toggle mobile menu
+    mobileToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         navMenu.classList.toggle('active');
         mobileToggle.classList.toggle('active');
 
@@ -161,11 +199,56 @@ function initMobileMenu() {
             document.body.style.overflow = '';
         }
     });
+
+    // Close menu on window resize
+    window.addEventListener('resize', debounce(() => {
+        if (window.innerWidth > 768) {
+            navMenu.classList.remove('active');
+            mobileToggle.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }, 250));
 }
 
-// ============================================
-// FORM HANDLING
-// ============================================
+/* ===================================================================
+   SCROLL TO TOP BUTTON
+   =================================================================== */
+
+/**
+ * Initialize scroll to top button
+ * Shows button after scrolling down and handles click
+ */
+function initScrollToTop() {
+    const scrollTopBtn = document.getElementById('scrollTop');
+
+    if (!scrollTopBtn) return;
+
+    // Show/hide button on scroll
+    window.addEventListener('scroll', throttle(() => {
+        if (window.pageYOffset > 300) {
+            scrollTopBtn.classList.add('visible');
+        } else {
+            scrollTopBtn.classList.remove('visible');
+        }
+    }, 100), { passive: true });
+
+    // Scroll to top on click
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+/* ===================================================================
+   FORM HANDLING
+   =================================================================== */
+
+/**
+ * Initialize form handling
+ * Sets up submit handlers for waitlist and contact forms
+ */
 function initForms() {
     // Waitlist Form
     const waitlistForm = document.getElementById('waitlistForm');
@@ -187,45 +270,47 @@ function initForms() {
 function handleWaitlistSubmit(e) {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
 
     // Show loading state
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Joining...';
     submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>Joining...</span><i class="fas fa-spinner fa-spin"></i>';
 
     // Simulate API call (replace with actual endpoint)
     setTimeout(() => {
-        showNotification('Success! You\'ve been added to the waitlist.', 'success');
+        showNotification('Success! You\'ve been added to the waitlist. We\'ll be in touch soon!', 'success');
         e.target.reset();
-        submitBtn.textContent = originalText;
         submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHTML;
     }, 1500);
 
-    // In production, replace setTimeout with actual API call:
-    /*
-    fetch('/api/waitlist', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-        showNotification('Success! You\'ve been added to the waitlist.', 'success');
-        e.target.reset();
-    })
-    .catch(error => {
-        showNotification('An error occurred. Please try again.', 'error');
-    })
-    .finally(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    });
-    */
+    /**
+     * Production implementation:
+     *
+     * const formData = new FormData(e.target);
+     * const data = Object.fromEntries(formData.entries());
+     *
+     * fetch('/api/waitlist', {
+     *     method: 'POST',
+     *     headers: {
+     *         'Content-Type': 'application/json',
+     *     },
+     *     body: JSON.stringify(data)
+     * })
+     * .then(response => response.json())
+     * .then(result => {
+     *     showNotification('Success! You\'ve been added to the waitlist.', 'success');
+     *     e.target.reset();
+     * })
+     * .catch(error => {
+     *     showNotification('An error occurred. Please try again.', 'error');
+     * })
+     * .finally(() => {
+     *     submitBtn.disabled = false;
+     *     submitBtn.innerHTML = originalHTML;
+     * });
+     */
 }
 
 /**
@@ -235,50 +320,53 @@ function handleWaitlistSubmit(e) {
 function handleContactSubmit(e) {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
 
     // Show loading state
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Sending...';
     submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
 
     // Simulate API call (replace with actual endpoint)
     setTimeout(() => {
-        showNotification('Thank you! We\'ll be in touch soon.', 'success');
+        showNotification('Thank you for your message! We\'ll get back to you soon.', 'success');
         e.target.reset();
-        submitBtn.textContent = originalText;
         submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHTML;
     }, 1500);
 
-    // In production, replace setTimeout with actual API call:
-    /*
-    fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-        showNotification('Thank you! We\'ll be in touch soon.', 'success');
-        e.target.reset();
-    })
-    .catch(error => {
-        showNotification('An error occurred. Please try again.', 'error');
-    })
-    .finally(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    });
-    */
+    /**
+     * Production implementation:
+     *
+     * const formData = new FormData(e.target);
+     * const data = Object.fromEntries(formData.entries());
+     *
+     * fetch('/api/contact', {
+     *     method: 'POST',
+     *     headers: {
+     *         'Content-Type': 'application/json',
+     *     },
+     *     body: JSON.stringify(data)
+     * })
+     * .then(response => response.json())
+     * .then(result => {
+     *     showNotification('Thank you! We\'ll be in touch soon.', 'success');
+     *     e.target.reset();
+     * })
+     * .catch(error => {
+     *     showNotification('An error occurred. Please try again.', 'error');
+     * })
+     * .finally(() => {
+     *     submitBtn.disabled = false;
+     *     submitBtn.innerHTML = originalHTML;
+     * });
+     */
 }
 
-// ============================================
-// NOTIFICATION SYSTEM
-// ============================================
+/* ===================================================================
+   NOTIFICATION SYSTEM
+   =================================================================== */
+
 /**
  * Show notification message to user
  * @param {string} message - Notification message
@@ -294,15 +382,21 @@ function showNotification(message, type = 'info') {
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
+
+    const icon = getNotificationIcon(type);
+
     notification.innerHTML = `
         <div class="notification-content">
-            <span class="notification-icon">${getNotificationIcon(type)}</span>
+            <span class="notification-icon">${icon}</span>
             <span class="notification-message">${message}</span>
+            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     `;
 
     // Add styles
-    Object.assign(notification.style, {
+    const styles = {
         position: 'fixed',
         top: '100px',
         right: '20px',
@@ -310,48 +404,74 @@ function showNotification(message, type = 'info') {
         color: '#FFFFFF',
         padding: '1rem 1.5rem',
         borderRadius: '0.75rem',
-        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
         zIndex: '9999',
         animation: 'slideInRight 0.3s ease-out',
-        maxWidth: '400px'
-    });
+        maxWidth: '400px',
+        minWidth: '300px'
+    };
 
-    // Add animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideInRight {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
+    Object.assign(notification.style, styles);
+
+    // Add animation styles if not already present
+    if (!document.getElementById('notification-styles')) {
+        const style = document.createElement('style');
+        style.id = 'notification-styles';
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(450px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
             }
-            to {
-                transform: translateX(0);
-                opacity: 1;
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(450px);
+                    opacity: 0;
+                }
             }
-        }
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
+            .notification-content {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
             }
-            to {
-                transform: translateX(400px);
-                opacity: 0;
+            .notification-icon {
+                font-size: 1.25rem;
+                flex-shrink: 0;
             }
-        }
-        .notification-content {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .notification-icon {
-            font-size: 1.25rem;
-        }
-        .notification-message {
-            font-weight: 500;
-        }
-    `;
-    document.head.appendChild(style);
+            .notification-message {
+                flex: 1;
+                font-weight: 500;
+                line-height: 1.4;
+            }
+            .notification-close {
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                color: white;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                transition: background 0.2s;
+            }
+            .notification-close:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+        `;
+        document.head.appendChild(style);
+    }
 
     // Append to body
     document.body.appendChild(notification);
@@ -373,21 +493,22 @@ function showNotification(message, type = 'info') {
 function getNotificationIcon(type) {
     switch (type) {
         case 'success':
-            return '✓';
+            return '<i class="fas fa-check-circle"></i>';
         case 'error':
-            return '✕';
+            return '<i class="fas fa-exclamation-circle"></i>';
         case 'info':
         default:
-            return 'ℹ';
+            return '<i class="fas fa-info-circle"></i>';
     }
 }
 
-// ============================================
-// UTILITY FUNCTIONS
-// ============================================
+/* ===================================================================
+   UTILITY FUNCTIONS
+   =================================================================== */
 
 /**
  * Debounce function to limit function calls
+ * Ensures function is only called after specified delay
  * @param {Function} func - Function to debounce
  * @param {number} wait - Wait time in milliseconds
  * @returns {Function} Debounced function
@@ -406,6 +527,7 @@ function debounce(func, wait) {
 
 /**
  * Throttle function to limit function execution rate
+ * Ensures function is not called more than once per specified time
  * @param {Function} func - Function to throttle
  * @param {number} limit - Time limit in milliseconds
  * @returns {Function} Throttled function
@@ -421,44 +543,64 @@ function throttle(func, limit) {
     };
 }
 
-// ============================================
-// PERFORMANCE OPTIMIZATIONS
-// ============================================
+/**
+ * Check if element is in viewport
+ * @param {HTMLElement} element - Element to check
+ * @returns {boolean} True if element is in viewport
+ */
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
 
-// Use passive event listeners for scroll
-window.addEventListener('scroll', () => {
-    // Scroll handler
-}, { passive: true });
+/* ===================================================================
+   PERFORMANCE OPTIMIZATIONS
+   =================================================================== */
 
-// Preload critical resources
+/**
+ * Preload critical resources
+ * Improves initial page load performance
+ */
 function preloadResources() {
     const criticalLinks = [
         'https://fonts.googleapis.com',
-        'https://fonts.gstatic.com'
+        'https://fonts.gstatic.com',
+        'https://cdnjs.cloudflare.com'
     ];
 
     criticalLinks.forEach(href => {
         const link = document.createElement('link');
         link.rel = 'preconnect';
         link.href = href;
-        document.head.appendChild(link);
+        if (!document.querySelector(`link[href="${href}"]`)) {
+            document.head.appendChild(link);
+        }
     });
 }
 
+// Execute preload on load
 preloadResources();
 
-// ============================================
-// ACCESSIBILITY ENHANCEMENTS
-// ============================================
+/* ===================================================================
+   ACCESSIBILITY ENHANCEMENTS
+   =================================================================== */
 
 /**
- * Trap focus within modal for keyboard navigation
+ * Trap focus within modal/menu for keyboard navigation
  * @param {HTMLElement} element - Container element
  */
 function trapFocus(element) {
     const focusableElements = element.querySelectorAll(
-        'a[href], button:not([disabled]), textarea, input, select'
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled])'
     );
+
+    if (focusableElements.length === 0) return;
+
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
 
@@ -481,9 +623,9 @@ function trapFocus(element) {
     });
 }
 
-// ============================================
-// ANALYTICS INTEGRATION (PLACEHOLDER)
-// ============================================
+/* ===================================================================
+   ANALYTICS INTEGRATION (PLACEHOLDER)
+   =================================================================== */
 
 /**
  * Track page view event
@@ -492,11 +634,20 @@ function trapFocus(element) {
 function trackPageView(pageName) {
     // Replace with actual analytics implementation
     // Example: Google Analytics, Mixpanel, etc.
-    console.log('Page view:', pageName);
+    if (typeof console !== 'undefined' && console.log) {
+        console.log('Page view:', pageName);
+    }
 
-    // if (typeof gtag !== 'undefined') {
-    //     gtag('event', 'page_view', { page_title: pageName });
-    // }
+    /**
+     * Production implementation:
+     *
+     * if (typeof gtag !== 'undefined') {
+     *     gtag('event', 'page_view', {
+     *         page_title: pageName,
+     *         page_path: window.location.pathname
+     *     });
+     * }
+     */
 }
 
 /**
@@ -507,14 +658,20 @@ function trackPageView(pageName) {
  */
 function trackEvent(action, category, label) {
     // Replace with actual analytics implementation
-    console.log('Event:', { action, category, label });
+    if (typeof console !== 'undefined' && console.log) {
+        console.log('Event:', { action, category, label });
+    }
 
-    // if (typeof gtag !== 'undefined') {
-    //     gtag('event', action, {
-    //         event_category: category,
-    //         event_label: label
-    //     });
-    // }
+    /**
+     * Production implementation:
+     *
+     * if (typeof gtag !== 'undefined') {
+     *     gtag('event', action, {
+     *         event_category: category,
+     *         event_label: label
+     *     });
+     * }
+     */
 }
 
 // Track CTA clicks
@@ -524,32 +681,57 @@ document.querySelectorAll('.btn-primary').forEach(btn => {
     });
 });
 
-// ============================================
-// ERROR HANDLING
-// ============================================
+// Track initial page view
+trackPageView('Home');
 
-// Global error handler
+/* ===================================================================
+   ERROR HANDLING
+   =================================================================== */
+
+/**
+ * Global error handler
+ * Logs errors for debugging and monitoring
+ */
 window.addEventListener('error', (event) => {
     console.error('Global error:', event.error);
-    // Log to error tracking service in production
-    // Example: Sentry.captureException(event.error);
+
+    /**
+     * Production implementation:
+     * Send to error tracking service (e.g., Sentry)
+     *
+     * if (typeof Sentry !== 'undefined') {
+     *     Sentry.captureException(event.error);
+     * }
+     */
 });
 
-// Unhandled promise rejection handler
+/**
+ * Unhandled promise rejection handler
+ * Catches async errors that aren't handled
+ */
 window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled promise rejection:', event.reason);
-    // Log to error tracking service in production
+
+    /**
+     * Production implementation:
+     *
+     * if (typeof Sentry !== 'undefined') {
+     *     Sentry.captureException(event.reason);
+     * }
+     */
 });
 
-// ============================================
-// EXPORT FOR MODULE USAGE
-// ============================================
+/* ===================================================================
+   MODULE EXPORTS (FOR TESTING)
+   =================================================================== */
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         showNotification,
         trackEvent,
         trackPageView,
         debounce,
-        throttle
+        throttle,
+        isInViewport
     };
 }
