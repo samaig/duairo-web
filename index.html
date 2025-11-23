@@ -96,6 +96,18 @@
             flex-shrink: 0;
         }
 
+        .logo-image {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .logo-image {
+                height: 32px;
+            }
+        }
+
         .logo-icon {
             width: 36px;
             height: 36px;
@@ -1192,10 +1204,7 @@
     <div class="container">
         <div class="nav-wrapper">
             <a href="#home" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-heartbeat"></i>
-                </div>
-                <span class="logo-text">Duairo</span>
+                <img src="assets/DUAIRO-logo.png" alt="Duairo" class="logo-image">
             </a>
 
             <div class="nav-center">
