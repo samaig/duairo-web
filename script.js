@@ -247,13 +247,13 @@ function initScrollToTop() {
 
 /**
  * Initialize form handling
- * Sets up submit handlers for waitlist and contact forms
+ * Sets up submit handlers for beta and contact forms
  */
 function initForms() {
-    // Waitlist Form
-    const waitlistForm = document.getElementById('waitlistForm');
-    if (waitlistForm) {
-        waitlistForm.addEventListener('submit', handleWaitlistSubmit);
+    // Beta Form
+    const betaForm = document.getElementById('betaForm');
+    if (betaForm) {
+        betaForm.addEventListener('submit', handleBetaSubmit);
     }
 
     // Contact Form
@@ -264,10 +264,10 @@ function initForms() {
 }
 
 /**
- * Handle waitlist form submission
+ * Handle beta form submission
  * @param {Event} e - Form submit event
  */
-function handleWaitlistSubmit(e) {
+function handleBetaSubmit(e) {
     e.preventDefault();
 
     const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -279,7 +279,7 @@ function handleWaitlistSubmit(e) {
 
     // Simulate API call (replace with actual endpoint)
     setTimeout(() => {
-        showNotification('Success! You\'ve been added to the waitlist. We\'ll be in touch soon!', 'success');
+        showNotification('Success! You\'ve been added to the beta program. We\'ll contact you soon with next steps!', 'success');
         e.target.reset();
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalHTML;
@@ -291,7 +291,7 @@ function handleWaitlistSubmit(e) {
      * const formData = new FormData(e.target);
      * const data = Object.fromEntries(formData.entries());
      *
-     * fetch('/api/waitlist', {
+     * fetch('/api/beta-signup', {
      *     method: 'POST',
      *     headers: {
      *         'Content-Type': 'application/json',
@@ -300,7 +300,7 @@ function handleWaitlistSubmit(e) {
      * })
      * .then(response => response.json())
      * .then(result => {
-     *     showNotification('Success! You\'ve been added to the waitlist.', 'success');
+     *     showNotification('Success! You\'ve been added to the beta program.', 'success');
      *     e.target.reset();
      * })
      * .catch(error => {

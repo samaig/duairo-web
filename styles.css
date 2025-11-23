@@ -1148,6 +1148,22 @@ a {
     transform: scale(1.05);
 }
 
+.impact-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto var(--spacing-md);
+    background: rgba(0, 94, 184, 0.1);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+}
+
+.impact-icon i {
+    font-size: 1.5rem;
+}
+
 .impact-number {
     font-size: 3.5rem;
     font-weight: 800;
@@ -1429,16 +1445,16 @@ a {
 }
 
 /* ===================================================================
-   WAITLIST SECTION
+   BETA SIGNUP SECTION
    =================================================================== */
 
-.section-waitlist {
+.section-beta {
     background: var(--bg-gradient);
     padding: var(--spacing-4xl) 0;
 }
 
-.waitlist-card {
-    max-width: 700px;
+.beta-card {
+    max-width: 800px;
     margin: 0 auto;
     background: var(--color-white);
     border-radius: var(--radius-2xl);
@@ -1446,26 +1462,103 @@ a {
     box-shadow: var(--shadow-2xl);
 }
 
-.waitlist-header {
+.beta-header {
     text-align: center;
     margin-bottom: var(--spacing-xl);
 }
 
-.waitlist-title {
+.beta-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--spacing-md);
+    background: rgba(0, 94, 184, 0.1);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+}
+
+.beta-icon i {
+    font-size: 2.5rem;
+}
+
+.beta-title {
     color: var(--color-gray-900);
     margin-bottom: var(--spacing-md);
 }
 
-.waitlist-description {
+.beta-description {
     font-size: 1.125rem;
     color: var(--color-gray-600);
     margin: 0;
+    line-height: 1.7;
 }
 
-.waitlist-form {
+.beta-form {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
+}
+
+.beta-privacy {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-top: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+.beta-privacy i {
+    color: var(--color-secondary);
+}
+
+/* ===================================================================
+   TRUST BADGES SECTION
+   =================================================================== */
+
+.section-trust {
+    background: var(--color-white);
+    padding: var(--spacing-xl) 0;
+    border-top: 1px solid var(--color-gray-200);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.trust-badges {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: var(--spacing-xl);
+    flex-wrap: wrap;
+}
+
+.trust-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-md);
+    transition: transform var(--transition-base);
+}
+
+.trust-badge:hover {
+    transform: translateY(-4px);
+}
+
+.trust-badge i {
+    font-size: 2rem;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.trust-badge span {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-gray-700);
+    text-align: center;
 }
 
 /* ===================================================================
@@ -1902,8 +1995,13 @@ select.form-input {
         gap: var(--spacing-xl);
     }
 
-    .waitlist-card {
+    .beta-card {
         padding: var(--spacing-xl);
+    }
+
+    .trust-badges {
+        flex-direction: column;
+        gap: var(--spacing-md);
     }
 }
 
