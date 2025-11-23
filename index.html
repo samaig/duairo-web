@@ -1003,6 +1003,18 @@
             color: white;
         }
 
+        .footer-logo-image {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .footer-logo-image {
+                height: 32px;
+            }
+        }
+
         .footer-tagline {
             font-size: 15px;
             line-height: 1.7;
@@ -1731,11 +1743,9 @@
         <div class="footer-content">
             <div class="footer-brand">
                 <div class="logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-heartbeat"></i>
-                    </div>
-                    <span class="logo-text">Duairo</span>
+                    <img src="assets/DUAIRO.png" alt="Duairo" class="footer-logo-image">
                 </div>
+
                 <p class="footer-tagline">
                     Patient-held healthcare. Secure. Intelligent. Always available.
                 </p>
