@@ -837,7 +837,7 @@ a {
 
 .process-timeline {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(9, 1fr);
     gap: var(--spacing-md);
     align-items: start;
 }
@@ -1885,6 +1885,10 @@ select.form-input {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .process-step {
+        grid-column: span 1;
+    }
+
     .process-line {
         display: none;
     }
@@ -1976,6 +1980,10 @@ select.form-input {
 
     .process-timeline {
         grid-template-columns: 1fr;
+    }
+
+    .process-step {
+        grid-column: span 1;
     }
 
     .departments-grid {
