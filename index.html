@@ -360,10 +360,12 @@
             z-index: 998;
             opacity: 0;
             transition: opacity 0.3s;
+            pointer-events: none;
         }
 
         .mobile-overlay.active {
             opacity: 1;
+            pointer-events: auto;
         }
 
         .mobile-menu-container {
@@ -379,10 +381,12 @@
             z-index: 999;
             transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow-y: auto;
+            pointer-events: none;
         }
 
         .mobile-menu-container.active {
             right: 0;
+            pointer-events: auto;
         }
 
         .mobile-menu-list {
