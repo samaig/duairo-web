@@ -6,7 +6,7 @@ A premium single-page website for Duairo - an AI-powered healthcare platform tha
 
 ---
 
-## 🎯 Overview
+## Overview
 
 This website showcases Duairo's AI-powered healthcare platform with a focus on:
 - **Trust & Safety**: NHS-aligned, GDPR compliant, medical-grade design
@@ -16,7 +16,7 @@ This website showcases Duairo's AI-powered healthcare platform with a focus on:
 
 ---
 
-## 🚀 Features
+## Features
 
 ### Sections
 1. **Hero** - Compelling introduction with clear value proposition
@@ -28,18 +28,18 @@ This website showcases Duairo's AI-powered healthcare platform with a focus on:
 7. **Contact** - Full contact information and inquiry form
 
 ### Technical Features
-- ✅ **Fully Responsive** - Mobile, tablet, and desktop optimized
-- ✅ **Smooth Animations** - Intersection Observer API for scroll effects
-- ✅ **Form Handling** - Waitlist and contact form validation
-- ✅ **Mobile Menu** - Hamburger navigation for small screens
-- ✅ **Active Navigation** - Highlights current section while scrolling
-- ✅ **Accessibility** - Semantic HTML, ARIA labels, keyboard navigation
-- ✅ **Performance** - Optimized loading, passive event listeners
-- ✅ **SEO Ready** - Meta tags, semantic structure, descriptive content
+- **Fully Responsive** - Mobile, tablet, and desktop optimized
+- **Smooth Animations** - Intersection Observer API for scroll effects
+- **Form Handling** - Waitlist and contact form validation
+- **Mobile Menu** - Hamburger navigation for small screens
+- **Active Navigation** - Highlights current section while scrolling
+- **Accessibility** - Semantic HTML, ARIA labels, keyboard navigation
+- **Performance** - Optimized loading, passive event listeners
+- **SEO Ready** - Meta tags, semantic structure, descriptive content
 
 ---
 
-## 📁 File Structure
+## File Structure
 
 ```
 duairo-web/
@@ -51,7 +51,7 @@ duairo-web/
 
 ---
 
-## 🎨 Design System
+## Design System
 
 ### Color Palette
 
@@ -82,7 +82,7 @@ duairo-web/
 
 ---
 
-## 🛠️ Technologies
+## Technologies
 
 - **HTML5** - Semantic markup
 - **CSS3** - Modern design with Grid, Flexbox, CSS Variables
@@ -91,17 +91,17 @@ duairo-web/
 
 ---
 
-## 📱 Browser Support
+## Browser Support
 
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Option 1: Direct Open
 Simply open `index.html` in your web browser.
@@ -124,7 +124,7 @@ Then navigate to `http://localhost:8000`
 
 ---
 
-## 📝 Customization Guide
+## Customization Guide
 
 ### Update Company Information
 Edit the contact section in `index.html`:
@@ -156,18 +156,9 @@ function handleWaitlistSubmit(e) {
 }
 ```
 
-### Add Images
-Replace placeholder SVGs with actual images:
-```html
-<!-- In index.html -->
-<div class="hero-image-placeholder">
-  <img src="path/to/your-image.jpg" alt="Description">
-</div>
-```
-
 ---
 
-## 🔧 Code Quality
+## Code Quality
 
 ### Architecture Principles
 - **DRY** (Don't Repeat Yourself) - Reusable components and utilities
@@ -182,19 +173,19 @@ Replace placeholder SVGs with actual images:
 
 ---
 
-## 🎯 SEO Optimization
+## SEO Optimization
 
-- ✅ Semantic HTML structure
-- ✅ Meta descriptions and keywords
-- ✅ Open Graph tags ready (add social media previews)
-- ✅ Proper heading hierarchy
-- ✅ Alt text for images
-- ✅ Fast loading times
-- ✅ Mobile-first responsive design
+- Semantic HTML structure
+- Meta descriptions and keywords
+- Open Graph tags ready (add social media previews)
+- Proper heading hierarchy
+- Alt text for images
+- Fast loading times
+- Mobile-first responsive design
 
 ---
 
-## 📊 Analytics Integration
+## Analytics Integration
 
 The website includes placeholder functions for analytics. To integrate:
 
@@ -216,18 +207,18 @@ function trackEvent(action, category, label) {
 
 ---
 
-## 🔐 Security Considerations
+## Security Considerations
 
-- ✅ No inline JavaScript (CSP-ready)
-- ✅ Form validation (client-side)
-- ✅ HTTPS recommended for production
-- ⚠️ Server-side validation required for forms
-- ⚠️ Sanitize user inputs on backend
-- ⚠️ Implement rate limiting for API endpoints
+- No inline JavaScript (CSP-ready)
+- Form validation (client-side)
+- HTTPS recommended for production
+- Server-side validation required for forms
+- Sanitize user inputs on backend
+- Implement rate limiting for API endpoints
 
 ---
 
-## 🚢 Deployment
+## Deployment
 
 ### Static Hosting (Recommended)
 - **Netlify**: Drag and drop the folder
@@ -240,25 +231,20 @@ Upload all files to your web server's public directory.
 
 ---
 
-## 📋 TODO for Production
+## TODO for Production
 
-- [ ] Add real images to replace placeholder SVGs
 - [ ] Connect forms to backend API endpoints
 - [ ] Add Google Analytics tracking code
 - [ ] Set up error logging (Sentry, LogRocket, etc.)
 - [ ] Add social media Open Graph images
-- [ ] Create favicon and app icons
 - [ ] Test with real user data
-- [ ] Set up CI/CD pipeline
 - [ ] Add privacy policy and terms of service pages
 - [ ] Implement cookie consent banner (GDPR)
-- [ ] Add structured data (JSON-LD) for rich snippets
-- [ ] Set up SSL certificate
 - [ ] Configure CDN for assets
 
 ---
 
-## 📞 Company Information
+## Company Information
 
 **Duairo Ltd**
 128 City Road
@@ -271,13 +257,13 @@ United Kingdom
 
 ---
 
-## 📄 License
+## License
 
 © 2025 Duairo Ltd. All rights reserved.
 
 ---
 
-## 🤝 Support
+## Support
 
 For technical questions or support:
 - Email: comms@duairo.co.uk
