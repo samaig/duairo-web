@@ -2,7 +2,7 @@
 
 **Professional, Medical-Grade Healthcare Platform Website**
 
-A premium single-page website for Duairo - an AI-powered healthcare platform that delivers GP-level support directly to patients.
+AI-powered healthcare platform that delivers GP-level support directly to patients.
 
 ---
 
@@ -148,7 +148,7 @@ Update CSS variables in `styles.css`:
 Replace the placeholder form handlers in `script.js`:
 ```javascript
 function handleWaitlistSubmit(e) {
-  // Replace setTimeout with your API endpoint
+  // Replace setTimeout with API endpoint
   fetch('/api/waitlist', {
     method: 'POST',
     body: JSON.stringify(data)
@@ -227,7 +227,7 @@ function trackEvent(action, category, label) {
 - **AWS S3 + CloudFront**: For enterprise hosting
 
 ### Traditional Hosting
-Upload all files to your web server's public directory.
+Upload all files to the web server's public directory.
 
 ---
 
@@ -272,4 +272,4 @@ For technical questions or support:
 
 ---
 
-**Built with precision and care for Duairo - Transforming Healthcare Access**
+**Built with precision and care - Transforming Healthcare Access**
