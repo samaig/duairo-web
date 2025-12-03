@@ -1207,6 +1207,277 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .step-watermark {
+            position: absolute;
+            top: -15px;
+            right: -10px;
+            font-size: 120px;
+            font-weight: 900;
+            color: rgba(0, 94, 184, 0.03);
+            line-height: 1;
+            pointer-events: none;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .roadmap-card.modern:hover .step-watermark {
+            color: rgba(0, 94, 184, 0.08);
+            transform: scale(1.1);
+        }
+
+        /* Modern Icon styling */
+        .step-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--bg), #ffffff);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-icon-wrapper i {
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        /* Connective line for desktop */
+        @media (min-width: 992px) {
+            .roadmap-grid.four-step::before {
+                content: '';
+                position: absolute;
+                top: 70px; /* Aligns with icons */
+                left: 50px;
+                right: 50px;
+                height: 2px;
+                background: linear-gradient(90deg, var(--primary) 0%, var(--accent-teal) 100%);
+                opacity: 0.1;
+                z-index: 0;
+                pointer-events: none;
+            }
+        }
+
+        /* Responsive fixes */
+        @media (max-width: 1100px) {
+            .roadmap-grid.four-step {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .roadmap-grid.four-step {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Museum Roadmap Styles */
+        .roadmap-section {
+            background: var(--bg);
+            padding: 100px 0;
+            overflow: hidden;
+        }
+
+        .roadmap-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        /* Vertical Line */
+        .timeline-track {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 48px; /* Aligns with center of markers */
+            width: 3px;
+            background: #E2E8F0;
+            z-index: 1;
+        }
+
+        /* The Moving Blue Line (Progress) */
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            left: 48px;
+            width: 3px;
+            background: var(--primary);
+            z-index: 1;
+            height: 0; /* JS will animate this */
+            transition: height 0.5s ease;
+        }
+
+        .timeline-step {
+            position: relative;
+            margin-bottom: 24px;
+            z-index: 2;
+            perspective: 1000px;
+        }
+
+        /* The Number Bubble */
+        .step-marker {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 56px;
+            height: 56px;
+            background: white;
+            border: 3px solid #E2E8F0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #A0AEC0;
+            font-size: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            z-index: 5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Active Marker State */
+        .timeline-step.active .step-marker {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 0 8px rgba(0, 94, 184, 0.15);
+        }
+
+        /* The Content Card */
+        .step-card {
+            margin-left: 100px; /* Space for marker */
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #E2E8F0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .timeline-step.active .step-card {
+            border-color: var(--primary);
+            box-shadow: 0 12px 24px rgba(0, 94, 184, 0.08);
+            transform: translateX(-5px);
+        }
+
+        /* Card Header (Always Visible) */
+        .step-header {
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .step-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .step-icon {
+            color: var(--primary);
+            font-size: 20px;
+            opacity: 0.7;
+            width: 24px;
+            text-align: center;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .step-toggler {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-step.active .step-toggler {
+            background: var(--primary);
+            color: white;
+            transform: rotate(180deg);
+        }
+
+        /* Card Body (Collapsible) */
+        .step-body {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            background: #F8FAFC;
+        }
+
+        .timeline-step.active .step-body {
+            max-height: 200px; /* Limits height for animation */
+            opacity: 1;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .step-description {
+            padding: 24px 32px;
+            color: var(--text);
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* Highlight bold text in descriptions */
+        .step-description strong {
+            color: var(--primary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .timeline-track, .timeline-progress {
+                left: 28px;
+            }
+
+            .step-marker {
+                width: 44px;
+                height: 44px;
+                font-size: 16px;
+                left: 6px;
+            }
+
+            .step-card {
+                margin-left: 64px;
+            }
+
+            .step-header {
+                padding: 20px;
+            }
+
+            .step-description {
+                padding: 20px;
+            }
+
+            .step-title {
+                font-size: 16px;
+            }
+
+            .step-toggler {
+                width: 28px;
+                height: 28px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1335,77 +1606,108 @@
 </section>
 
 <!-- How It Works -->
-<section class="section how-it-works" id="how-it-works">
+<section class="section roadmap-section" id="how-it-works">
     <div class="container">
         <div class="section-header">
             <div class="section-tag">How It Works</div>
-            <h2 class="section-title">Simple, Secure, Intelligent</h2>
+            <h2 class="section-title">Healthcare in Four Steps</h2>
             <p class="section-description">
-                From account creation to personalized care, Duairo makes healthcare accessible, safe, and tailored to
-                you.
+                Click on the steps below to explore your journey from symptom capture to clinical recovery.
             </p>
         </div>
 
-        <div class="roadmap-grid">
-            <div class="roadmap-card">
-                <div class="roadmap-number">1</div>
-                <div class="roadmap-icon">
-                    <i class="fas fa-user-plus"></i>
+        <div class="roadmap-container">
+            <div class="timeline-track"></div>
+            <div class="timeline-progress" id="timelineProgress"></div>
+
+            <div class="timeline-step active" onclick="toggleStep(0)">
+                <div class="step-marker">1</div>
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-title-wrapper">
+                            <i class="fas fa-microscope step-icon"></i>
+                            <h3 class="step-title">Symptom Collection</h3>
+                        </div>
+                        <div class="step-toggler">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="step-body">
+                        <p class="step-description">
+                            Describe your health concerns in natural language. Our system captures vital data including
+                            <strong>temperature, heart rate, photos, and videos</strong> to map severity and patterns
+                            for a complete clinical picture.
+                        </p>
+                    </div>
                 </div>
-                <h3 class="roadmap-title">Create Your Account</h3>
-                <p class="roadmap-description">Sign up securely with encrypted authentication. Your profile becomes the
-                    foundation for personalized, safe healthcare access.</p>
             </div>
 
-            <div class="roadmap-card">
-                <div class="roadmap-number">2</div>
-                <div class="roadmap-icon">
-                    <i class="fas fa-comments"></i>
+            <div class="timeline-step" onclick="toggleStep(1)">
+                <div class="step-marker">2</div>
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-title-wrapper">
+                            <i class="fas fa-brain step-icon"></i>
+                            <h3 class="step-title">Smart Clinical Analysis</h3>
+                        </div>
+                        <div class="step-toggler">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="step-body">
+                        <p class="step-description">
+                            Fine-tuned with <strong>advice from NHS GPs</strong>, our AI conducts a medical-grade
+                            consultation by asking targeted safety questions to mirror a physical doctor's visit and
+                            delivering instant assessment.
+                        </p>
+                    </div>
                 </div>
-                <h3 class="roadmap-title">Describe Your Symptoms</h3>
-                <p class="roadmap-description">Share your health concerns in natural language. Our intelligent system
-                    identifies symptoms, severity, and patterns instantly.</p>
             </div>
 
-            <div class="roadmap-card">
-                <div class="roadmap-number">3</div>
-                <div class="roadmap-icon">
-                    <i class="fas fa-brain"></i>
+            <div class="timeline-step" onclick="toggleStep(2)">
+                <div class="step-marker">3</div>
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-title-wrapper">
+                            <i class="fas fa-file-prescription step-icon"></i>
+                            <h3 class="step-title">Actionable Plan & Summary</h3>
+                        </div>
+                        <div class="step-toggler">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="step-body">
+                        <p class="step-description">
+                            Receive clear next steps from self-care to urgent escalation. We generate a <strong>structured
+                            clinical summary</strong> detailing symptoms and reasoning that is ready to be shared with
+                            any healthcare provider.
+                        </p>
+                    </div>
                 </div>
-                <h3 class="roadmap-title">Smart Analysis</h3>
-                <p class="roadmap-description">Advanced clinical intelligence asks targeted follow-up questions,
-                    evaluates risk in real-time, and provides evidence-based guidance.</p>
             </div>
 
-            <div class="roadmap-card">
-                <div class="roadmap-number">4</div>
-                <div class="roadmap-icon">
-                    <i class="fas fa-clipboard-check"></i>
+            <div class="timeline-step" onclick="toggleStep(3)">
+                <div class="step-marker">4</div>
+                <div class="step-card">
+                    <div class="step-header">
+                        <div class="step-title-wrapper">
+                            <i class="fas fa-chart-line step-icon"></i>
+                            <h3 class="step-title">Track & Monitor</h3>
+                        </div>
+                        <div class="step-toggler">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="step-body">
+                        <p class="step-description">
+                            Healthcare doesn't stop at diagnosis. Securely track your history, monitor symptom patterns
+                            over time, and receive intelligent follow-up reminders to ensure your recovery stays on
+                            track.
+                        </p>
+                    </div>
                 </div>
-                <h3 class="roadmap-title">Clear Recommendations</h3>
-                <p class="roadmap-description">Receive straightforward next steps: self-care guidance, pharmacy options,
-                    GP advice, or urgent care escalation when needed.</p>
             </div>
 
-            <div class="roadmap-card">
-                <div class="roadmap-number">5</div>
-                <div class="roadmap-icon">
-                    <i class="fas fa-file-medical-alt"></i>
-                </div>
-                <h3 class="roadmap-title">Structured Summary</h3>
-                <p class="roadmap-description">Get a complete medical-style summary including symptoms, severity,
-                    reasoning, and recommendations ready to share with clinicians.</p>
-            </div>
-
-            <div class="roadmap-card">
-                <div class="roadmap-number">6</div>
-                <div class="roadmap-icon">
-                    <i class="fas fa-history"></i>
-                </div>
-                <h3 class="roadmap-title">Track & Monitor</h3>
-                <p class="roadmap-description">Access your secure chat history, spot patterns over time, and receive
-                    helpful follow-up reminders and health insights.</p>
-            </div>
         </div>
     </div>
 </section>
@@ -1486,63 +1788,51 @@
             <div class="section-tag">For Healthcare Partners</div>
             <h2 class="section-title">Supporting Healthcare Systems</h2>
             <p class="section-description">
-                Reducing clinical workload while improving patient outcomes and access to care.
+                Reducing clinical workload and ensuring equitable access through intelligent infrastructure.
             </p>
         </div>
 
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">
-                    <i class="fas fa-hospital"></i>
+                    <i class="fas fa-desktop"></i>
                 </div>
-                <h3 class="feature-title">Reduced GP Workload</h3>
-                <p class="feature-description">Handle routine queries, triage effectively, and free up clinical time for
-                    cases that need human expertise.</p>
+                <h3 class="feature-title">Seamless Clinical Dashboard</h3>
+                <p class="feature-description">
+                    We provide a specialized <strong>Front-End CMS</strong> that connects seamlessly with your existing
+                    systems (EMR/EHR).
+                    Our clinician dashboard presents pre-sorted symptom summaries and risk analysis before the patient
+                    enters the room.
+                    This eliminates administrative data entry, giving doctors time back to focus on care.
+                </p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">
-                    <i class="fas fa-chart-line"></i>
+                    <i class="fas fa-globe-europe"></i>
                 </div>
-                <h3 class="feature-title">Better Patient Outcomes</h3>
-                <p class="feature-description">Earlier intervention, better compliance, and informed patients lead to
-                    improved health outcomes across your system.</p>
+                <h3 class="feature-title">Scalable Triage for Any Region</h3>
+                <p class="feature-description">
+                    Whether serving <strong>remote locations</strong> or <strong>densely populated urban
+                    centers</strong>, Duairo reduces pressure on hospitals.
+                    Our AI assesses symptom severity instantly and faster than transporting a patient to a GP.
+                    This reduces wait times, prevents unnecessary visits, and makes high-quality triage scalable
+                    worldwide.
+                </p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">
-                    <i class="fas fa-pound-sign"></i>
+                    <i class="fas fa-balance-scale"></i>
                 </div>
-                <h3 class="feature-title">Cost Efficiency</h3>
-                <p class="feature-description">Reduce unnecessary appointments, optimize resource allocation, and
-                    improve overall healthcare system efficiency.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-sync"></i>
-                </div>
-                <h3 class="feature-title">Healthcare Integration</h3>
-                <p class="feature-description">Designed to work within existing healthcare infrastructure. Complements
-                    current systems without disruption.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-clipboard-check"></i>
-                </div>
-                <h3 class="feature-title">Clinical Context</h3>
-                <p class="feature-description">When patients reach you, they arrive with comprehensive documentation and
-                    clear clinical history.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-book-medical"></i>
-                </div>
-                <h3 class="feature-title">Evidence-Based Practice</h3>
-                <p class="feature-description">Built on NICE guidelines and clinical best practices. Supporting safe,
-                    effective healthcare delivery.</p>
+                <h3 class="feature-title">Unbiased, Equitable Diagnosis</h3>
+                <p class="feature-description">
+                    Patients often face underdiagnosis or misdiagnosis based on <strong>race and gender</strong>.
+                    Duairo is built to prevent this. By utilizing objective data collection and standardized clinical
+                    protocols,
+                    we ensure every patient receives an accurate, evidence-based assessment regardless of their
+                    background or demographic.
+                </p>
             </div>
         </div>
     </div>
@@ -1886,6 +2176,30 @@
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
+
+    function toggleStep(index) {
+        const steps = document.querySelectorAll('.timeline-step');
+        const progressLine = document.getElementById('timelineProgress');
+
+        // Loop through all steps to manage active state
+        steps.forEach((step, i) => {
+            if (i === index) {
+                // Toggle active state for clicked item (or keep it active)
+                step.classList.add('active');
+            } else {
+                // Close others to keep it compact
+                step.classList.remove('active');
+            }
+        });
+
+        const stepHeight = 100; // Roughly percent per step segment in layout
+        const totalSteps = steps.length;
+        const percentage = ((index) / (totalSteps - 1)) * 100;
+
+        // Clamp percentage for safety
+        const safePercentage = Math.min(Math.max(percentage, 0), 100);
+        progressLine.style.height = safePercentage + '%';
+    }
 </script>
 
 </body>
