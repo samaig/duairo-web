@@ -1670,9 +1670,15 @@
         }
 
         @keyframes pulseNode {
-            0% { box-shadow: 0 0 0 0 rgba(0, 94, 184, 0.2); }
-            70% { box-shadow: 0 0 0 10px rgba(0, 94, 184, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 94, 184, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 94, 184, 0.2);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 94, 184, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 94, 184, 0);
+            }
         }
 
         /* Responsive adjustments */
@@ -1681,6 +1687,7 @@
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
+
             .horizontal-timeline::before,
             .horizontal-timeline::after {
                 left: 40px;
@@ -1727,6 +1734,128 @@
 
             .investor-timeline-wrapper {
                 padding: 40px 20px;
+            }
+        }
+
+        /* --- REDESIGNED FOUNDERS SECTION --- */
+        .founders-section {
+            /* Soft Health Gradient: distinct from white, fits medical theme */
+            background: linear-gradient(135deg, rgba(0, 178, 169, 0.08) 0%, rgba(0, 94, 184, 0.08) 100%);
+            padding: 100px 0;
+            position: relative;
+        }
+
+        /* Decorative background element */
+        .founders-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 94, 184, 0.2), transparent);
+        }
+
+        .founders-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px; /* Wider gap for cleaner look */
+            margin-top: 56px;
+        }
+
+        .founder-card {
+            background: white;
+            border-radius: 24px;
+            padding: 0; /* Padding handled by children */
+            box-shadow: 0 10px 30px rgba(0, 94, 184, 0.06);
+            border: 1px solid rgba(0, 94, 184, 0.1); /* Subtle blue border */
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .founder-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 94, 184, 0.12);
+            border-color: var(--primary);
+        }
+
+        /* Colored Header Area */
+        .founder-header-bg {
+            padding: 32px 40px;
+            background: linear-gradient(to right, #F8FAFC, #FFFFFF);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .founder-icon-box {
+            width: 64px;
+            height: 64px;
+            background: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 94, 184, 0.1);
+            flex-shrink: 0;
+        }
+
+        /* Gradient Text for Title */
+        .founder-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap; /* Forces one line */
+        }
+
+        .founder-content {
+            padding: 40px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .founder-bio {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text);
+            margin: 0;
+        }
+
+        /* Highlight Key Terms in Bio */
+        .founder-bio strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .founders-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .founder-title {
+                font-size: 20px; /* Slightly smaller on mobile to keep one line */
+                white-space: normal; /* Allow wrap on very small phones if absolutely needed */
+            }
+
+            .founder-header-bg {
+                padding: 24px 32px;
+            }
+
+            .founder-content {
+                padding: 32px;
             }
         }
     </style>
@@ -2236,14 +2365,17 @@
                 <h2>Partner with Duairo</h2>
                 <div class="investor-text">
                     <p>
-                        We are building the future of patient-led healthcare. Our team has successfully moved from concept to a functional MVP and we are currently refining our advanced prototype.
+                        We are building the future of patient-led healthcare. Our team has successfully moved from
+                        concept to a functional MVP and we are currently refining our advanced prototype.
                     </p>
                     <p style="margin-top: 16px;">
-                        The next phase of our roadmap focuses on market entry and initial revenue generation. We invite strategic partners and investors to review our pitch deck and join us on this journey.
+                        The next phase of our roadmap focuses on market entry and initial revenue generation. We invite
+                        strategic partners and investors to review our pitch deck and join us on this journey.
                     </p>
                 </div>
                 <div class="contact-info" style="color: white;">
-                    <p><strong>Direct IR Contact:</strong> <a href="mailto:invest@duairo.co.uk" class="investor-link">invest@duairo.co.uk</a></p>
+                    <p><strong>Direct IR Contact:</strong> <a href="mailto:invest@duairo.co.uk" class="investor-link">invest@duairo.co.uk</a>
+                    </p>
                 </div>
             </div>
 
@@ -2323,6 +2455,60 @@
             </div>
         </div>
 
+    </div>
+</section>
+
+<section class="founders-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Built by Experts</h2>
+            <p class="section-description">
+                A multidisciplinary leadership team combining deep clinical roots with award-winning technical
+                expertise.
+            </p>
+        </div>
+
+        <div class="founders-grid">
+
+            <div class="founder-card">
+                <div class="founder-header-bg">
+                    <div class="founder-icon-box">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="founder-title">Chief Executive Officer</h3>
+                </div>
+                <div class="founder-content">
+                    <p class="founder-bio">
+                        A multidisciplinary founder bridging the gap between clinical necessity and technical
+                        feasibility. With a background in Chemistry and Forensics, and hands-on operational experience
+                        running a family medical practice, <strong>the CEO</strong> understands the structural
+                        bottlenecks of primary care. He combines this clinical insight with a track record of building
+                        award-winning businesses in the luxury and tech sectors. He is driven by a mission to rebuild
+                        healthcare that is safe, equitable, and accessible for underserved communities.
+                    </p>
+                </div>
+            </div>
+
+            <div class="founder-card">
+                <div class="founder-header-bg">
+                    <div class="founder-icon-box">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3 class="founder-title">Chief Technology Officer</h3>
+                </div>
+                <div class="founder-content">
+                    <p class="founder-bio">
+                        An experienced technical leader specializing in machine learning and scalable digital systems.
+                        With top qualifications from Cornell & Surrey and engineering experience at Goldman Sachs, THG,
+                        and Zilch, <strong>the CTO</strong> brings the rigor of enterprise software to healthcare. Like
+                        his co-founder, he comes from a family of doctors, giving him a personal stake in patient
+                        outcomes. He architects Duairo’s secure, interoperable AI core, ensuring it meets the highest
+                        standards of safety and clinical accuracy.
+                    </p>
+                </div>
+            </div>
+
+        </div>
     </div>
 </section>
 
@@ -2514,7 +2700,7 @@
     const investorForm = document.getElementById('investorForm');
     const investorSuccess = document.getElementById('investorSuccess');
 
-    if(investorForm) {
+    if (investorForm) {
         investorForm.addEventListener('submit', (e) => {
             e.preventDefault();
             investorSuccess.classList.add('show');
