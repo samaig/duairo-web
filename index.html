@@ -1876,6 +1876,227 @@
                 padding: 32px;
             }
         }
+
+        /* --- REDESIGNED PATIENTS SECTION (Hub Layout) --- */
+        .patients-section {
+            /* Soft blue gradient: distinct from white, very medical/clean */
+            background: linear-gradient(180deg, #F0F7FF 0%, #E6F4FF 100%);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background decorative circle (optional subtle effect) */
+        .patients-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            border: 1px solid rgba(0, 94, 184, 0.05);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hub-container {
+            display: grid;
+            grid-template-columns: 1fr 380px 1fr; /* Left, Center Image, Right */
+            gap: 32px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            margin-top: 64px;
+        }
+
+        /* CENTER IMAGE CIRCLE */
+        .hub-center-visual {
+            width: 380px;
+            height: 380px;
+            background: white;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 40px rgba(0, 94, 184, 0.15); /* Glowing blue shadow */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+        /* Pulse animation for the center */
+        .hub-center-visual::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            opacity: 0.1;
+            animation: pulseCircle 3s infinite;
+        }
+
+        @keyframes pulseCircle {
+            0% {
+                transform: scale(1);
+                opacity: 0.1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.1;
+            }
+        }
+
+        /* Placeholder style - replace with actual <img> tag later */
+        .hub-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            text-align: center;
+            background: radial-gradient(circle at center, #FFFFFF, #F0F7FF);
+        }
+
+        .hub-image-placeholder i {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        /* FEATURE COLUMNS */
+        .hub-column {
+            display: flex;
+            flex-direction: column;
+            gap: 48px; /* Vertical space between cards */
+        }
+
+        .hub-feature-card {
+            background: white;
+            padding: 24px 32px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hub-feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        /* Connector Lines (Desktop Only) */
+        .hub-feature-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 32px; /* Length of the connector line */
+            height: 2px;
+            background: var(--border);
+            transition: var(--transition);
+        }
+
+        .hub-feature-card:hover::before {
+            background: var(--primary);
+        }
+
+        /* Specific Styles for Left Side */
+        .hub-column.left .hub-feature-card {
+            text-align: right;
+            align-items: flex-end;
+            margin-right: 10px; /* Space for hover lift */
+        }
+
+        .hub-column.left .hub-feature-card::before {
+            right: -32px; /* Stick out to the right */
+        }
+
+        /* Specific Styles for Right Side */
+        .hub-column.right .hub-feature-card {
+            text-align: left;
+            align-items: flex-start;
+            margin-left: 10px;
+        }
+
+        .hub-column.right .hub-feature-card::before {
+            left: -32px; /* Stick out to the left */
+        }
+
+        .hub-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 10px rgba(0, 94, 184, 0.2);
+        }
+
+        .hub-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .hub-desc {
+            font-size: 14px;
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 1024px) {
+            .hub-container {
+                grid-template-columns: 1fr; /* Stack everything */
+                gap: 40px;
+                max-width: 600px;
+                margin: 40px auto 0;
+            }
+
+            .hub-center-visual {
+                order: -1; /* Move image to top */
+                width: 280px;
+                height: 280px;
+                margin-bottom: 20px;
+            }
+
+            /* Reset alignments for mobile */
+            .hub-column.left .hub-feature-card,
+            .hub-column.right .hub-feature-card {
+                text-align: center; /* Center text on mobile */
+                align-items: center;
+                margin: 0;
+            }
+
+            /* Hide connectors on mobile */
+            .hub-feature-card::before {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2134,7 +2355,7 @@
 </section>
 
 <!-- For Patients -->
-<section class="section" id="patients">
+<!--<section class="section" id="patients">
     <div class="container">
         <div class="section-header">
             <div class="section-tag">For Patients</div>
@@ -2198,6 +2419,86 @@
                 <p class="feature-description">Works alongside your existing healthcare. When you need a GP or
                     specialist, we make the connection effortless.</p>
             </div>
+        </div>
+    </div>
+</section>-->
+
+<section class="section patients-section" id="patients">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">For Patients</div>
+            <h2 class="section-title">Healthcare Built Around You</h2>
+            <p class="section-description">
+                Experience primary care that respects your time, protects your privacy, and puts you in control.
+            </p>
+        </div>
+
+        <div class="hub-container">
+
+            <div class="hub-column left">
+
+                <div class="hub-feature-card">
+                    <div class="hub-icon"><i class="fas fa-lock"></i></div>
+                    <h3 class="hub-title">Complete Privacy</h3>
+                    <p class="hub-desc">
+                        Your health data belongs to you. Always encrypted, always secure, always under your control.
+                    </p>
+                </div>
+
+                <div class="hub-feature-card">
+                    <div class="hub-icon"><i class="fas fa-bolt"></i></div>
+                    <h3 class="hub-title">Instant Access</h3>
+                    <p class="hub-desc">
+                        No waiting rooms. Get GP-level guidance when you need it, 24/7 from anywhere.
+                    </p>
+                </div>
+
+                <div class="hub-feature-card">
+                    <div class="hub-icon"><i class="fas fa-heart"></i></div>
+                    <h3 class="hub-title">Comprehensive Care</h3>
+                    <p class="hub-desc">
+                        From symptoms to diagnosis, prescriptions to referrals. Complete support in one platform.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="hub-center-visual">
+                <div class="hub-image-placeholder">
+                    <i class="fas fa-user-shield"></i>
+                    <h4 style="margin-top:16px; font-weight:700;">Patient Image</h4>
+                    <p style="font-size:12px; opacity:0.7;">(Add Image Here)</p>
+                </div>
+            </div>
+
+            <div class="hub-column right">
+
+                <div class="hub-feature-card">
+                    <div class="hub-icon"><i class="fas fa-file-medical"></i></div>
+                    <h3 class="hub-title">Your Health Record</h3>
+                    <p class="hub-desc">
+                        Access your complete medical history anytime. Track progress and share with providers.
+                    </p>
+                </div>
+
+                <div class="hub-feature-card">
+                    <div class="hub-icon"><i class="fas fa-sliders-h"></i></div>
+                    <h3 class="hub-title">Personalized Guidance</h3>
+                    <p class="hub-desc">
+                        Evidence-based recommendations tailored to your unique health profile and history.
+                    </p>
+                </div>
+
+                <div class="hub-feature-card">
+                    <div class="hub-icon"><i class="fas fa-users"></i></div>
+                    <h3 class="hub-title">Seamless Integration</h3>
+                    <p class="hub-desc">
+                        Works alongside your existing healthcare. We make the connection to GPs effortless.
+                    </p>
+                </div>
+
+            </div>
+
         </div>
     </div>
 </section>
