@@ -1277,56 +1277,135 @@
         }
 
         /* Museum Roadmap Styles */
+        /* --- NEW SPLIT ROADMAP SECTION --- */
         .roadmap-section {
             background: var(--bg);
             padding: 100px 0;
             overflow: hidden;
         }
 
-        .roadmap-container {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            padding: 0 20px;
+        .roadmap-split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Equal split */
+            gap: 64px;
+            align-items: start;
+            margin-top: 64px;
         }
 
-        /* Vertical Line */
-        .timeline-track {
+        /* LEFT SIDE: The Visuals */
+        .roadmap-visuals {
+            position: relative;
+            height: 500px; /* Fixed height for consistency */
+            background: white;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            /* Sticky effect: Keeps image in view if timeline is long */
+            position: sticky;
+            top: 120px;
+        }
+
+        .visual-item {
             position: absolute;
             top: 0;
-            bottom: 0;
-            left: 48px; /* Aligns with center of markers */
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease-in-out;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .visual-item.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        /* Image Placeholder Styling */
+        .visual-placeholder {
+            width: 100%;
+            height: 100%;
+            background: #F8FAFC;
+            border-radius: 16px;
+            border: 2px dashed #CBD5E0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #A0AEC0;
+            text-align: center;
+        }
+
+        .visual-placeholder i {
+            font-size: 64px;
+            margin-bottom: 16px;
+            color: var(--primary-light);
+            opacity: 0.5;
+        }
+
+        .visual-placeholder span {
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Actual Image Styling (For when you add them) */
+        .roadmap-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* or 'contain' depending on your screenshot */
+            border-radius: 16px;
+        }
+
+
+        /* RIGHT SIDE: The Timeline */
+        .roadmap-content-side {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline-track {
+            position: absolute;
+            top: 20px;
+            bottom: 20px;
+            left: 38px; /* Aligns with circle center */
             width: 3px;
             background: #E2E8F0;
             z-index: 1;
         }
 
-        /* The Moving Blue Line (Progress) */
         .timeline-progress {
             position: absolute;
-            top: 0;
-            left: 48px;
+            top: 20px;
+            left: 38px;
             width: 3px;
             background: var(--primary);
             z-index: 1;
-            height: 0; /* JS will animate this */
+            height: 0;
             transition: height 0.5s ease;
         }
 
         .timeline-step {
             position: relative;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
             z-index: 2;
-            perspective: 1000px;
+            cursor: pointer;
         }
 
-        /* The Number Bubble */
+        /* The Number Marker */
         .step-marker {
             position: absolute;
-            left: 20px;
+            left: 0;
             top: 0;
-            width: 56px;
-            height: 56px;
+            width: 40px;
+            height: 40px;
             background: white;
             border: 3px solid #E2E8F0;
             border-radius: 50%;
@@ -1335,59 +1414,40 @@
             justify-content: center;
             font-weight: 800;
             color: #A0AEC0;
-            font-size: 20px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
             z-index: 5;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
-        /* Active Marker State */
         .timeline-step.active .step-marker {
             border-color: var(--primary);
             background: var(--primary);
             color: white;
             transform: scale(1.1);
-            box-shadow: 0 0 0 8px rgba(0, 94, 184, 0.15);
+            box-shadow: 0 0 0 6px rgba(0, 94, 184, 0.15);
         }
 
-        /* The Content Card */
+        /* The Text Card */
         .step-card {
-            margin-left: 100px; /* Space for marker */
+            margin-left: 64px; /* Space for marker */
             background: white;
             border-radius: 16px;
-            border: 1px solid #E2E8F0;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            cursor: pointer;
+            border: 1px solid transparent; /* Invisible border unless active */
+            transition: all 0.3s ease;
         }
 
         .timeline-step.active .step-card {
-            border-color: var(--primary);
-            box-shadow: 0 12px 24px rgba(0, 94, 184, 0.08);
+            background: white;
+            border-color: var(--border);
+            box-shadow: var(--shadow-md);
             transform: translateX(-5px);
         }
 
-        /* Card Header (Always Visible) */
         .step-header {
-            padding: 24px 32px;
+            padding: 16px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        .step-title-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .step-icon {
-            color: var(--primary);
-            font-size: 20px;
-            opacity: 0.7;
-            width: 24px;
-            text-align: center;
         }
 
         .step-title {
@@ -1397,85 +1457,43 @@
             margin: 0;
         }
 
-        .step-toggler {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text);
-            font-size: 12px;
-            transition: all 0.3s ease;
+        .timeline-step.active .step-title {
+            color: var(--primary);
         }
 
-        .timeline-step.active .step-toggler {
-            background: var(--primary);
-            color: white;
-            transform: rotate(180deg);
-        }
-
-        /* Card Body (Collapsible) */
         .step-body {
             max-height: 0;
             opacity: 0;
             overflow: hidden;
             transition: all 0.4s ease;
-            background: #F8FAFC;
+            padding: 0 24px;
         }
 
         .timeline-step.active .step-body {
-            max-height: 200px; /* Limits height for animation */
+            max-height: 200px;
             opacity: 1;
-            border-top: 1px solid #E2E8F0;
+            padding-bottom: 24px;
         }
 
         .step-description {
-            padding: 24px 32px;
             color: var(--text);
             font-size: 15px;
-            line-height: 1.7;
+            line-height: 1.6;
             margin: 0;
         }
 
-        /* Highlight bold text in descriptions */
-        .step-description strong {
-            color: var(--primary);
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .timeline-track, .timeline-progress {
-                left: 28px;
+        /* Mobile Responsiveness */
+        @media (max-width: 968px) {
+            .roadmap-split-layout {
+                grid-template-columns: 1fr; /* Stack vertically */
+                gap: 40px;
             }
 
-            .step-marker {
-                width: 44px;
-                height: 44px;
-                font-size: 16px;
-                left: 6px;
-            }
-
-            .step-card {
-                margin-left: 64px;
-            }
-
-            .step-header {
-                padding: 20px;
-            }
-
-            .step-description {
-                padding: 20px;
-            }
-
-            .step-title {
-                font-size: 16px;
-            }
-
-            .step-toggler {
-                width: 28px;
-                height: 28px;
+            .roadmap-visuals {
+                height: 300px; /* Smaller height on mobile */
+                position: relative;
+                top: 0;
+                order: -1; /* Puts image on top */
             }
         }
 
@@ -1992,102 +2010,125 @@
             <div class="section-tag">How It Works</div>
             <h2 class="section-title">Healthcare in Four Steps</h2>
             <p class="section-description">
-                Click on the steps below to explore your journey from symptom capture to clinical recovery.
+                Click on the steps to see how Duairo transforms your journey from symptom to recovery.
             </p>
         </div>
 
-        <div class="roadmap-container">
-            <div class="timeline-track"></div>
-            <div class="timeline-progress" id="timelineProgress"></div>
+        <div class="roadmap-split-layout">
 
-            <div class="timeline-step active" onclick="toggleStep(0)">
-                <div class="step-marker">1</div>
-                <div class="step-card">
-                    <div class="step-header">
-                        <div class="step-title-wrapper">
-                            <i class="fas fa-microscope step-icon"></i>
+            <div class="roadmap-visuals">
+
+                <div class="visual-item active" id="visual-0">
+                    <div class="visual-placeholder">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>App Interface: Symptom Input</span>
+                        <p style="font-size: 12px; margin-top:8px; opacity: 0.7;">(Add Image Here)</p>
+                    </div>
+                </div>
+
+                <div class="visual-item" id="visual-1">
+                    <div class="visual-placeholder">
+                        <i class="fas fa-brain"></i>
+                        <span>AI Analysis Screen</span>
+                        <p style="font-size: 12px; margin-top:8px; opacity: 0.7;">(Add Image Here)</p>
+                    </div>
+                </div>
+
+                <div class="visual-item" id="visual-2">
+                    <div class="visual-placeholder">
+                        <i class="fas fa-file-medical-alt"></i>
+                        <span>Clinical Summary PDF</span>
+                        <p style="font-size: 12px; margin-top:8px; opacity: 0.7;">(Add Image Here)</p>
+                    </div>
+                </div>
+
+                <div class="visual-item" id="visual-3">
+                    <div class="visual-placeholder">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Recovery Dashboard</span>
+                        <p style="font-size: 12px; margin-top:8px; opacity: 0.7;">(Add Image Here)</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="roadmap-content-side">
+                <div class="timeline-track"></div>
+                <div class="timeline-progress" id="timelineProgress"></div>
+
+                <div class="timeline-step active" onclick="toggleStep(0)">
+                    <div class="step-marker">1</div>
+                    <div class="step-card">
+                        <div class="step-header">
                             <h3 class="step-title">Symptom Collection</h3>
+                            <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-light);"></i>
                         </div>
-                        <div class="step-toggler">
-                            <i class="fas fa-chevron-down"></i>
+                        <div class="step-body">
+                            <p class="step-description">
+                                Describe your health concerns in natural language. Our system captures vital data
+                                including
+                                <strong>temperature, heart rate, photos, and videos</strong> to map severity and
+                                patterns
+                                for a complete clinical picture.
+                            </p>
                         </div>
-                    </div>
-                    <div class="step-body">
-                        <p class="step-description">
-                            Describe your health concerns in natural language. Our system captures vital data including
-                            <strong>temperature, heart rate, photos, and videos</strong> to map severity and patterns
-                            for a complete clinical picture.
-                        </p>
                     </div>
                 </div>
-            </div>
 
-            <div class="timeline-step" onclick="toggleStep(1)">
-                <div class="step-marker">2</div>
-                <div class="step-card">
-                    <div class="step-header">
-                        <div class="step-title-wrapper">
-                            <i class="fas fa-brain step-icon"></i>
+                <div class="timeline-step" onclick="toggleStep(1)">
+                    <div class="step-marker">2</div>
+                    <div class="step-card">
+                        <div class="step-header">
                             <h3 class="step-title">Smart Clinical Analysis</h3>
+                            <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-light);"></i>
                         </div>
-                        <div class="step-toggler">
-                            <i class="fas fa-chevron-down"></i>
+                        <div class="step-body">
+                            <p class="step-description">
+                                Fine-tuned with <strong>advice from NHS GPs</strong>, our AI conducts a medical-grade
+                                consultation by asking targeted safety questions to mirror a physical doctor's visit and
+                                delivering instant assessment.
+                            </p>
                         </div>
-                    </div>
-                    <div class="step-body">
-                        <p class="step-description">
-                            Fine-tuned with <strong>advice from NHS GPs</strong>, our AI conducts a medical-grade
-                            consultation by asking targeted safety questions to mirror a physical doctor's visit and
-                            delivering instant assessment.
-                        </p>
                     </div>
                 </div>
-            </div>
 
-            <div class="timeline-step" onclick="toggleStep(2)">
-                <div class="step-marker">3</div>
-                <div class="step-card">
-                    <div class="step-header">
-                        <div class="step-title-wrapper">
-                            <i class="fas fa-file-prescription step-icon"></i>
+                <div class="timeline-step" onclick="toggleStep(2)">
+                    <div class="step-marker">3</div>
+                    <div class="step-card">
+                        <div class="step-header">
                             <h3 class="step-title">Actionable Plan & Summary</h3>
+                            <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-light);"></i>
                         </div>
-                        <div class="step-toggler">
-                            <i class="fas fa-chevron-down"></i>
+                        <div class="step-body">
+                            <p class="step-description">
+                                Receive clear next steps from self-care to urgent escalation. We generate a <strong>structured
+                                clinical summary</strong> detailing symptoms and reasoning that is ready to be shared
+                                with
+                                any healthcare provider.
+                            </p>
                         </div>
-                    </div>
-                    <div class="step-body">
-                        <p class="step-description">
-                            Receive clear next steps from self-care to urgent escalation. We generate a <strong>structured
-                            clinical summary</strong> detailing symptoms and reasoning that is ready to be shared with
-                            any healthcare provider.
-                        </p>
                     </div>
                 </div>
-            </div>
 
-            <div class="timeline-step" onclick="toggleStep(3)">
-                <div class="step-marker">4</div>
-                <div class="step-card">
-                    <div class="step-header">
-                        <div class="step-title-wrapper">
-                            <i class="fas fa-chart-line step-icon"></i>
+                <div class="timeline-step" onclick="toggleStep(3)">
+                    <div class="step-marker">4</div>
+                    <div class="step-card">
+                        <div class="step-header">
                             <h3 class="step-title">Track & Monitor</h3>
+                            <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-light);"></i>
                         </div>
-                        <div class="step-toggler">
-                            <i class="fas fa-chevron-down"></i>
+                        <div class="step-body">
+                            <p class="step-description">
+                                Healthcare doesn't stop at diagnosis. Securely track your history, monitor symptom
+                                patterns
+                                over time, and receive intelligent follow-up reminders to ensure your recovery stays on
+                                track.
+                            </p>
                         </div>
-                    </div>
-                    <div class="step-body">
-                        <p class="step-description">
-                            Healthcare doesn't stop at diagnosis. Securely track your history, monitor symptom patterns
-                            over time, and receive intelligent follow-up reminders to ensure your recovery stays on
-                            track.
-                        </p>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
 </section>
@@ -2755,24 +2796,33 @@
 
     function toggleStep(index) {
         const steps = document.querySelectorAll('.timeline-step');
+        const visuals = document.querySelectorAll('.visual-item');
         const progressLine = document.getElementById('timelineProgress');
 
-        // Loop through all steps to manage active state
+        // 1. Handle the Timeline Text Expanding
         steps.forEach((step, i) => {
             if (i === index) {
-                // Toggle active state for clicked item (or keep it active)
                 step.classList.add('active');
             } else {
-                // Close others to keep it compact
                 step.classList.remove('active');
             }
         });
 
-        const stepHeight = 100; // Roughly percent per step segment in layout
+        // 2. Handle the Image Switching
+        visuals.forEach((visual, i) => {
+            if (i === index) {
+                visual.classList.add('active');
+            } else {
+                visual.classList.remove('active');
+            }
+        });
+
+        // 3. Handle the Progress Bar Line
         const totalSteps = steps.length;
+        // Calculate percentage (keep it roughly aligned with marker position)
         const percentage = ((index) / (totalSteps - 1)) * 100;
 
-        // Clamp percentage for safety
+        // Safety clamp 0-100
         const safePercentage = Math.min(Math.max(percentage, 0), 100);
         progressLine.style.height = safePercentage + '%';
     }
